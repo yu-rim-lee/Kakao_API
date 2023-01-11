@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API 연습</title>
+</head>
+
+<body>
+    <h1>Daum 검색</h1>
+    <input id="Search" value="" type="text">
+    <button id="search">검색</button>
+
+    <p></p>
+    <script src="https://code.jquery.com/jquery-3.6.3.js"
+        integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $("#search").click(function () {
+                $.ajax({
+                    method: "GET",
+                    url: "https://dapi.kakao.com/v2/search/web",
+                    data: { query: $("#Search").val() },
+                    headers: { Authorization: "KakaoAK b027087f667fd436a68119a97410154a" }
+                })
+                    .done(function (msg) {
+                        console.log(msg.documents[0].title);
+                        console.log(msg.documents[0].contents);
+                        console.log(msg.documents[0].url);
+                        console.log(msg.documents[0].datetime);
+                        $("p").append("<h2>" + msg.documents[0].title + "</h2>");
+                        $("p").append("<strong>" + msg.documents[0].contents + "</strong>");
+                        $("p").append("<a href='" + msg.documents[0].url + "'>링크</a></br>");
+                        $("p").append("<small>" + msg.documents[0].datetime + "</small>");
+                    });
+            });
+        });
+    </script>
+</body>
+
+</html>
